@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>chair</title>
+
+  <!-- preview image -->
+  <meta property="og:title" content="chair" />
+  <meta property="og:description" content="click for another chair" />
+  <meta property="og:image" content="preview.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="chair" />
+  <meta name="twitter:description" content="click for another chair" />
+  <meta name="twitter:image" content="preview.png" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #f6f3ee;
+      color: #1d1d1d;
+      font-family: Georgia, "Times New Roman", serif;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 900px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .label {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      opacity: 0.7;
+      user-select: none;
+    }
+
+    .stage {
+      width: min(82vw, 640px);
+      height: min(62vh, 520px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 140ms ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .stage:active {
+      transform: scale(0.992);
+    }
+
+    #chair {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,0.08));
+    }
+
+    .tiny {
+      font-size: 11px;
+      opacity: 0.5;
+      user-select: none;
+      text-transform: lowercase;
+      letter-spacing: 0.03em;
+    }
+
+    .sig {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      opacity: 0.75;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .sig:hover { opacity: 1; }
+
+    @media (max-width: 640px) {
+      .label { font-size: 12px; }
+      .tiny { font-size: 10px; }
+      .stage {
+        width: 88vw;
+        height: 58vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="label">click for another chair</div>
+
+    <div class="stage" id="stage" aria-label="Random chair viewer" title="click">
+      <img id="chair" src="images/chair1.png" alt="chair" />
+    </div>
+
+    <div class="tiny">no explanation</div>
+  </div>
+
+  <a class="sig" href="https://haylortall.github.io/">♡ taylor</a>
+
+  <script>
+    // put your PNGs in a folder called "images"
+    // then replace these names with your actual files
+    const chairs = [
+      "images/chair1.png",
+      "images/chair2.png",
+      "images/chair3.png",
+      "images/chair4.png",
+      "images/chair5.png"
+    ];
+
+    const img = document.getElementById("chair");
+    const stage = document.getElementById("stage");
+
+    let current = 0;
+
+    function randomChair() {
+      if (chairs.length === 0) return;
+
+      let next = current;
+      while (chairs.length > 1 && next === current) {
+        next = Math.floor(Math.random() * chairs.length);
+      }
+
+      current = next;
+      img.src = chairs[current];
+    }
+
+    stage.addEventListener("click", randomChair);
+    window.addEventListener("keydown", (e) => {
+      if (e.key === " " || e.key === "Enter" || e.key === "ArrowRight") {
+        e.preventDefault();
+        randomChair();
+      }
+    });
+  </script>
+</body>
+</html>
